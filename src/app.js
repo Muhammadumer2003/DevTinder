@@ -3,8 +3,12 @@ const app=express();
 
 
 
-app.use("/user",(req,res)=>{
-    res.send("wah bawa gg!!!");
+app.use("/user",(req,res,next
+)=>{
+    // res.send("wah bawa gg!!!");
+    next();
+},(req,res)=>{
+    res.send("2nd response!!")
 })
 //Http methods routes testing
 app.get("/user",(req,res)=>{
