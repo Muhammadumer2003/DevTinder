@@ -1,39 +1,58 @@
 const express = require('express');
 
 const app=express();
-const {AdminMw,UserMw}=require('./middlewares/auth.js');
 
 
-app.use('/admin',AdminMw);
+//error handling
 
-app.get("/admin/chakka",(req, res, next) => {
-    res.send("admin chakka p request aii thi...")
+
+app.get('/getuserdata', (req, res) => {
+    throw new Error("chawliii marr dii hai yaarrr!!");
+    res.send("get api call");
+});
+app.use("/",(err,req,res,next) => {
+    res.status(501).send(err.message);
 })
 
-//Http methods routes testing
-app.get("/user",UserMw,(req,res)=>{
-    res.send({
-        name: "John Doe",
-        age: 25,
-        city: "New York"
-    })
-});
 
-app.post("/user/login", (req,res)=>{
-    res.send("login api call");
-})
 
-app.post("/user",UserMw,(req,res)=>{
-    res.send("post api call");
-});
 
-app.patch("/user",UserMw,(req,res)=>{
-    res.send("patch api call");
-});
 
-app.delete("/user",UserMw,(req,res)=>{
-    res.send("delete api call");
-});
+
+
+// const {AdminMw,UserMw}=require('./middlewares/auth.js');
+
+
+// app.use('/admin',AdminMw);
+
+// app.get("/admin/chakka",(req, res, next) => {
+//     res.send("admin chakka p request aii thi...")
+// })
+
+// //Http methods routes testing
+// app.get("/user",UserMw,(req,res)=>{
+//     res.send({
+//         name: "John Doe",
+//         age: 25,
+//         city: "New York"
+//     })
+// });
+
+// app.post("/user/login", (req,res)=>{
+//     res.send("login api call");
+// })
+
+// app.post("/user",UserMw,(req,res)=>{
+//     res.send("post api call");
+// });
+
+// app.patch("/user",UserMw,(req,res)=>{
+//     res.send("patch api call");
+// });
+
+// app.delete("/user",UserMw,(req,res)=>{
+//     res.send("delete api call");
+// });
 
 //route testing
 // app.use("/test/1",(req,res)=>{
