@@ -1,17 +1,17 @@
 const express = require('express');
+
 const app=express();
+const {AdminMw,UserMw}=require('./middlewares/auth.js');
 
 
+app.use('/admin',AdminMw);
 
-app.use("/user",(req,res,next
-)=>{
-    // res.send("wah bawa gg!!!");
-    next();
-},(req,res)=>{
-    res.send("2nd response!!")
+app.get("/admin/chakka",(req, res, next) => {
+    res.send("admin chakka p request aii thi...")
 })
+
 //Http methods routes testing
-app.get("/user",(req,res)=>{
+app.get("/user",UserMw,(req,res)=>{
     res.send({
         name: "John Doe",
         age: 25,
@@ -19,15 +19,19 @@ app.get("/user",(req,res)=>{
     })
 });
 
-app.post("/user",(req,res)=>{
+app.post("/user/login", (req,res)=>{
+    res.send("login api call");
+})
+
+app.post("/user",UserMw,(req,res)=>{
     res.send("post api call");
 });
 
-app.patch("/user",(req,res)=>{
+app.patch("/user",UserMw,(req,res)=>{
     res.send("patch api call");
 });
 
-app.delete("/user",(req,res)=>{
+app.delete("/user",UserMw,(req,res)=>{
     res.send("delete api call");
 });
 
