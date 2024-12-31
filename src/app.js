@@ -1,18 +1,96 @@
 const express = require('express');
+const dbConnect=require('./config/db');
+const User=require('./models/user.model')
 
 const app=express();
+
+
+app.use(express.json());
+
+
+
+//get api using findbyone
+
+app.get("/feed",async(req,res)=>{
+    // const name=req.body?.firstName;
+    // console.log(name);
+    // if(!name){
+    //     res.status(400).send("Please provide a name");
+    // }
+
+
+    try {
+        const user=await User.find({}
+        );
+        if(!user){
+            res.status(404).send("User not found");
+        }
+        else{
+            console.log(user);
+            res.send(user);
+        }
+        
+    } catch (error) {
+        res.status(404).send("Something went wrong");
+        
+    }
+    
+})
+
+
+//signup api
+
+app.post("/user/signup",async(req,res)=>{
+    //fetch fields from the body
+    try{
+   //new user
+   const newUser=new User(req.body);
+   console.log(newUser);
+   if(!newUser){
+    throw new Error("User not found");
+   }
+
+
+   
+    //save to db
+    await newUser.save();
+    res.send(newUser); 
+   }
+   catch(err){
+    res.status(400).send(err);
+   }
+    
+})
+
+
+
+
+//db connection logic
+dbConnect().then(()=>{
+    console.log("Connected to db");
+    app.listen(3000,()=>{
+        console.log("server is running on : 3000");;
+    });
+
+
+
+}).catch((err)=>{
+    console.error("Failed to connect to db",err);
+    process.exit(1);  //exit the app with error code 1
+ });
+
 
 
 //error handling
 
 
-app.get('/getuserdata', (req, res) => {
-    throw new Error("chawliii marr dii hai yaarrr!!");
-    res.send("get api call");
-});
-app.use("/",(err,req,res,next) => {
-    res.status(501).send(err.message);
-})
+// app.get('/getuserdata', (req, res) => {
+//     throw new Error("chawliii marr dii hai yaarrr!!");
+//     res.send("get api call");
+// });
+// app.use("/",(err,req,res,next) => {
+//     res.status(501).send(err.message);
+// })
 
 
 
@@ -68,6 +146,4 @@ app.use("/",(err,req,res,next) => {
 // app.use("/",(req,res)=>{
 //     res.send("sabko handle kryga.....")
 // });
-app.listen(3000,()=>{
-    console.log("server is running on : 3000");;
-});
+

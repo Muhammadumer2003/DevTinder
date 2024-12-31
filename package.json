@@ -47,6 +47,7 @@
     "mime": "^1.6.0",
     "mime-db": "^1.52.0",
     "mime-types": "^2.1.35",
+    "mongoose": "^8.9.2",
     "ms": "^2.0.0",
     "negotiator": "^0.6.3",
     "object-inspect": "^1.13.3",
@@ -74,8 +75,8 @@
     "vary": "^1.1.2"
   },
   "scripts": {
-    "start":"node src/app.js",
-    "dev":"nodemon src/app.js",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
