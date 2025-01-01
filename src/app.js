@@ -12,16 +12,20 @@ app.use(express.json());
 //get api using findbyone
 
 app.get("/feed",async(req,res)=>{
-    // const name=req.body?.firstName;
-    // console.log(name);
-    // if(!name){
-    //     res.status(400).send("Please provide a name");
-    // }
+    const name=req.body?._id;
+    console.log(name);
+    if(!name){
+        res.status(400).send("Please provide a name");
+    }
 
 
     try {
         const user=await User.find({}
         );
+        
+
+
+
         if(!user){
             res.status(404).send("User not found");
         }
