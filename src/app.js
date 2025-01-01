@@ -66,7 +66,41 @@ app.post("/user/signup",async(req,res)=>{
     
 })
 
+//delete user
+app.delete("/user/delete",async(req,res)=>{
+    try{
 
+        const userid= req.body.userId;
+
+        if(!userid){
+            res.status(404).send("can't find userid");
+
+        }
+        await User.findByIdAndDelete(userid);
+        res.send("user deleted successfully")
+    }
+    catch(err){
+        res.status(400).send(err);
+       }
+})
+
+
+//upate user
+app.patch("/user/update",async(req,res)=>{
+    try{
+        const userid=req.body.userId;
+        const data=req.body;
+        if(!userid){
+            res.status(400).send("Not found userid");
+        }
+        await User.findByIdAndUpdate(userid,data);
+        res.send("User upadted successfully!!");
+
+    }
+    catch(err){
+        res.status(400).send(err);
+       }
+})
 
 
 //db connection logic
