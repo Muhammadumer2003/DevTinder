@@ -21,7 +21,7 @@ const UserMw=async(req,res,next)=>{
             if(!user){
                 res.status(401).send("Unable to get user");
             }
-            res.send(user);
+            req.user=user;
             next();
         }
     } catch (error) {

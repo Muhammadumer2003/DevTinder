@@ -95,6 +95,18 @@ authRouter.post("/user/login",async(req,res)=>{
 });
 
 
+//logout
+
+authRouter.post('/user/logout',(req,res)=>{
+
+    //clear the cookies that sent to the client
+    res.clearCookie('token');
+    //sending the response to verify that the user is logged out
+    res.send('Logged Out');
+})
+
+
+
 
 
 
