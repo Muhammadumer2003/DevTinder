@@ -82,29 +82,34 @@ allRouter.get("/user/feed",UserMw,async(req,res)=>{
 
    
 
-     const allRequests=await ConnectionRequest.find({});
+     const allRequests=await ConnectionRequest.find({
+        $or:[{sender:loggedInUser._id},
+                {reciever:loggedInUser._id}
+            ],
+        
+     });
 
-     const requestFiltering= new Set();
-     allRequests.forEach((row)=>{requestFiltering.add(row);});
-    console.log(requestFiltering);
+     const setRequests = new Set();
+     allRequests.forEach((row) => {
+        setRequests.add(row.sender.toString());
+        setRequests.add(row.reciever.toString());
+     });
+    
+     console.log(setRequests);
 
-    const allUSers=await User.find({
-        $or:[
-            {
-                _id:{$nin:Array.from(allRequests)}
-            },
-            {
-                _id:{$ne:loggedInUser._id}
-            }
-        ]
 
-    });
+     const LegitUsers=await User.find({
+        $and:[{_id:{$nin:Array.from(setRequests)}},
+             {_id:{$ne:loggedInUser._id}}
+         ]
 
-    console.log(allUSers);
+        
+     }).select("firstName lastName age gender")
+
      
      res.send({
          message:"Got all users",
-         data:allUSers
+         data:LegitUsers
      })
    } catch (error) {
      res.status(500).send({message:error.message});
