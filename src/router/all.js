@@ -77,6 +77,12 @@ allRouter.get('/user/getallconnections',UserMw,async(req,res)=>{
 allRouter.get("/user/feed",UserMw,async(req,res)=>{
    try {
      const loggedInUser=req.user;
+     const pageNo=parseInt(req.query.page)||1;
+     let limit=parseInt(req.query.limit)||10;
+     limit=limit>50?50:limit;
+     const skip=(pageNo-1)*limit;
+
+
      
 
 
@@ -104,7 +110,7 @@ allRouter.get("/user/feed",UserMw,async(req,res)=>{
          ]
 
         
-     }).select("firstName lastName age gender")
+     }).select("firstName lastName age gender").skip(skip).limit(limit)
 
      
      res.send({
