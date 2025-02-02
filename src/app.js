@@ -29,6 +29,7 @@ const profileRouter=require('./router/profile.js');
 const requestRouter=require('./router/requests.js');
 const allRouter=require('./router/all.js');
 const initializedsocket = require('./utils/socket.js');
+const chatRouter=require("./router/chat.js")
 
 
 
@@ -36,6 +37,7 @@ app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/',requestRouter);
 app.use('/',allRouter);
+app.use("/",chatRouter);
 
 const server=http.createServer(app);
 const io = initializedsocket(server);
