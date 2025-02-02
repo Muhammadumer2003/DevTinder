@@ -49,7 +49,7 @@ allRouter.get('/user/getallconnections',UserMw,async(req,res)=>{
         }
 
         const data= connectionSearching.map((row)=>{
-            if(row.sender._id.toString()==loggedInUser.toString()){
+            if(row.sender._id.toString()==loggedInUser._id.toString()){
                 return row.reciever
                 
 

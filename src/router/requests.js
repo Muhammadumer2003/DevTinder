@@ -8,7 +8,7 @@ requestRouter.post('/user/request/:status/:touserid',UserMw, async(req,res)=>{
     try {
         const {status,touserid}=req.params;
       
-        if(!status ||!touserid){
+        if(!status || !touserid){
             return res.status(400).send("Missing parameters");
         }
 
@@ -120,7 +120,7 @@ requestRouter.post('/user/request/review/:status/:request',
         await checkRequest.save();
 
         res.status(202).json({
-            message:`${loggedInuser.firstName} ${status}  ${request.sender.firstName} request`,
+            message:` request`,
             data:{
                 checkRequest
             }

@@ -18,6 +18,11 @@ authRouter.post("/user/signup",async(req,res)=>{
 
         const {firstName,lastName,password,age,gender} = req.body;
 
+        const isUserExists=await User.findOne({firstName:firstName});
+        if(isUserExists){
+            throw new Error("User already registered");
+        }
+
         // Encrypt password
 
         const hashpassword=await bcrypt.hash(password,10);
@@ -41,11 +46,16 @@ authRouter.post("/user/signup",async(req,res)=>{
    
     //save to db
     await newUser.save();
-    res.send(newUser); 
+    res.json({
+        message: "User created successfully",
+        data:{
+            user: newUser
+        }
+    }); 
    }
    catch(err){
     res.status(400).send(
-        "Something went wrong"
+        {message:err.message}
     );
    }
     
@@ -63,7 +73,7 @@ authRouter.post("/user/login",async(req,res)=>{
         console.log(firstName);
 
         //check if user exist
-        const user=await User.findOne({firstName});
+        const user=await User.findOne({firstName:firstName });
         console.log(user);
         if(!user){
             throw new Error("Invalid credentials");
@@ -102,7 +112,9 @@ authRouter.post('/user/logout',(req,res)=>{
     //clear the cookies that sent to the client
     res.clearCookie('token');
     //sending the response to verify that the user is logged out
-    res.send('Logged Out');
+    res.send({
+        message:"Logged Out"
+    });
 })
 
 
